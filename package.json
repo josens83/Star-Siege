@@ -1,0 +1,68 @@
+{
+  "name": "star-siege",
+  "version": "1.0.0",
+  "description": "Star Siege - 모바일 RTS 게임",
+  "main": "index.html",
+  "scripts": {
+    "start": "npx serve .",
+    "build": "echo 'Static HTML project - no build needed'",
+    "cap:init": "npx cap init 'Star Siege' com.starsiege.rts --web-dir .",
+    "cap:add:android": "npx cap add android",
+    "cap:add:ios": "npx cap add ios",
+    "cap:sync": "npx cap sync",
+    "cap:open:android": "npx cap open android",
+    "cap:open:ios": "npx cap open ios",
+    "cap:build:android": "npx cap sync android && cd android && ./gradlew assembleRelease",
+    "cap:build:ios": "npx cap sync ios",
+    "android": "npm run cap:sync && npm run cap:open:android",
+    "ios": "npm run cap:sync && npm run cap:open:ios"
+  },
+  "keywords": [
+    "rts",
+    "game",
+    "mobile",
+    "strategy",
+    "starcraft",
+    "html5",
+    "canvas"
+  ],
+  "author": "Star Siege Team",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {
+    "@capacitor/android": "^6.0.0",
+    "@capacitor/app": "^6.0.0",
+    "@capacitor/core": "^6.0.0",
+    "@capacitor/haptics": "^6.0.0",
+    "@capacitor/ios": "^6.0.0",
+    "@capacitor/keyboard": "^6.0.0",
+    "@capacitor/preferences": "^6.0.0",
+    "@capacitor/splash-screen": "^6.0.0",
+    "@capacitor/status-bar": "^6.0.0",
+    "serve": "^14.2.0"
+  },
+  "capacitor": {
+    "appId": "com.starsiege.rts",
+    "appName": "Star Siege",
+    "webDir": ".",
+    "bundledWebRuntime": false,
+    "plugins": {
+      "SplashScreen": {
+        "launchShowDuration": 2000,
+        "launchAutoHide": true,
+        "backgroundColor": "#0a0a1a",
+        "androidSplashResourceName": "splash",
+        "androidScaleType": "CENTER_CROP",
+        "showSpinner": false
+      },
+      "StatusBar": {
+        "style": "DARK",
+        "backgroundColor": "#0a0a1a"
+      },
+      "Keyboard": {
+        "resize": "body",
+        "style": "dark"
+      }
+    }
+  }
+}
