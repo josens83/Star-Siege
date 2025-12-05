@@ -669,11 +669,1216 @@ export const TERRA_CAMPAIGN = [
 ];
 
 /**
+ * 크라이온 캠페인
+ */
+export const KRYON_CAMPAIGN = [
+    // 챕터 1: 각성
+    {
+        id: 'kryon_1_1',
+        chapter: 1,
+        name: '고대의 부름',
+        description: '수천 년의 동면에서 깨어난 크라이온. 새로운 시대가 시작됩니다.',
+        faction: 'kryon',
+        enemyFaction: 'terra',
+        difficulty: 'easy',
+
+        briefing: `
+            오래된 예언이 이루어졌습니다.
+            동면에서 깨어난 당신은 크라이온의 새로운 집행관입니다.
+            노바 섹터에 침입한 이방인들을 몰아내야 합니다.
+            먼저, 우리의 고대 기지를 재가동하세요.
+        `,
+
+        debriefing: {
+            victory: '영원한 빛이 우리와 함께합니다. 고대 기지가 다시 작동합니다.',
+            defeat: '크라이온의 영광이 무너졌습니다. 다시 시도하세요.'
+        },
+
+        startResources: { crystal: 250, energy: 150 },
+        startUnits: [
+            { type: 'probe', count: 3 },
+            { type: 'zealot', count: 3 }
+        ],
+
+        objectives: [
+            {
+                id: 'activate_nexus',
+                type: 'build',
+                buildingType: 'nexus',
+                description: '넥서스 활성화',
+                completed: false,
+                primary: true
+            },
+            {
+                id: 'train_zealots',
+                type: 'train_count',
+                targetCount: 5,
+                currentCount: 0,
+                description: '광전사 5기 소환',
+                completed: false,
+                primary: true
+            },
+            {
+                id: 'repel_scouts',
+                type: 'destroy_count',
+                targetCount: 4,
+                currentCount: 0,
+                description: '테라 정찰대 격퇴',
+                completed: false,
+                primary: false
+            }
+        ],
+
+        waves: [
+            { time: 45, units: [{ type: 'marine', count: 3 }] },
+            { time: 100, units: [{ type: 'marine', count: 4 }] },
+            { time: 160, units: [{ type: 'marine', count: 3 }, { type: 'medic', count: 1 }] }
+        ],
+
+        rewards: {
+            coins: 150,
+            gems: 5,
+            experience: 100
+        }
+    },
+
+    {
+        id: 'kryon_1_2',
+        name: '신성한 크리스탈',
+        description: '우리의 힘의 원천인 사이오닉 크리스탈을 수호하세요.',
+        faction: 'kryon',
+        enemyFaction: 'terra',
+        chapter: 1,
+        difficulty: 'easy',
+
+        briefing: `
+            집행관이여, 테라 연합이 우리의 신성한 크리스탈 광맥을 노리고 있습니다.
+            이 크리스탈은 우리 사이오닉 능력의 원천입니다.
+            어떤 대가를 치르더라도 그들이 크리스탈에 접근하지 못하게 하세요.
+        `,
+
+        startResources: { crystal: 200, energy: 100 },
+        startUnits: [
+            { type: 'probe', count: 4 },
+            { type: 'zealot', count: 4 },
+            { type: 'ranger', count: 2 }
+        ],
+
+        objectives: [
+            {
+                id: 'protect_crystals',
+                type: 'protect',
+                targetType: 'crystal_node',
+                description: '크리스탈 노드 보호 (4개 중 3개 이상)',
+                completed: false,
+                primary: true
+            },
+            {
+                id: 'survive',
+                type: 'survive',
+                time: 240,
+                description: '4분간 생존',
+                completed: false,
+                primary: true
+            },
+            {
+                id: 'no_losses',
+                type: 'unit_loss_limit',
+                maxLosses: 3,
+                currentLosses: 0,
+                description: '유닛 손실 3기 이하 (보너스)',
+                completed: false,
+                primary: false
+            }
+        ],
+
+        waves: [
+            { time: 30, units: [{ type: 'marine', count: 4 }] },
+            { time: 80, units: [{ type: 'marine', count: 5 }, { type: 'scout', count: 2 }] },
+            { time: 140, units: [{ type: 'marine', count: 6 }, { type: 'medic', count: 2 }] },
+            { time: 200, units: [{ type: 'marine', count: 8 }, { type: 'tank', count: 1 }] }
+        ],
+
+        rewards: {
+            coins: 200,
+            gems: 5,
+            experience: 120
+        }
+    },
+
+    {
+        id: 'kryon_1_3',
+        name: '정화의 불꽃',
+        description: '테라 연합의 전초기지를 파괴하고 이 지역을 정화하세요.',
+        faction: 'kryon',
+        enemyFaction: 'terra',
+        chapter: 1,
+        difficulty: 'normal',
+
+        briefing: `
+            이방인들이 우리 영토에 기지를 세웠습니다.
+            이것은 신성모독입니다.
+            광전사들을 이끌고 그들의 기지를 정화하세요.
+            영원한 빛이 인도할 것입니다.
+        `,
+
+        startResources: { crystal: 300, energy: 150 },
+        startUnits: [
+            { type: 'probe', count: 5 },
+            { type: 'zealot', count: 6 },
+            { type: 'stalker', count: 2 }
+        ],
+
+        objectives: [
+            {
+                id: 'destroy_command',
+                type: 'destroy_building',
+                buildingType: 'command_center',
+                description: '테라 사령부 파괴',
+                completed: false,
+                primary: true
+            },
+            {
+                id: 'destroy_barracks',
+                type: 'destroy_count',
+                targetCount: 2,
+                buildingType: 'barracks',
+                currentCount: 0,
+                description: '병영 2개 파괴',
+                completed: false,
+                primary: true
+            },
+            {
+                id: 'swift_justice',
+                type: 'time_limit',
+                timeLimit: 360,
+                description: '6분 내 완료 (보너스)',
+                completed: false,
+                primary: false
+            }
+        ],
+
+        enemyBase: {
+            buildings: [
+                { type: 'command_center', x: 1600, y: 500 },
+                { type: 'barracks', x: 1500, y: 400 },
+                { type: 'barracks', x: 1500, y: 600 },
+                { type: 'turret', x: 1400, y: 450 },
+                { type: 'turret', x: 1400, y: 550 }
+            ],
+            units: [
+                { type: 'marine', count: 8 },
+                { type: 'medic', count: 2 }
+            ]
+        },
+
+        rewards: {
+            coins: 300,
+            gems: 10,
+            experience: 150
+        }
+    },
+
+    // 챕터 2: 전쟁
+    {
+        id: 'kryon_2_1',
+        chapter: 2,
+        name: '기계의 위협',
+        description: '메카니쿠스가 우리 영역을 침범했습니다.',
+        faction: 'kryon',
+        enemyFaction: 'mechanicus',
+        difficulty: 'normal',
+
+        briefing: `
+            집행관이여, 새로운 적이 나타났습니다.
+            메카니쿠스라 불리는 기계 집합체가 우리 영역을 침범했습니다.
+            그들의 차가운 논리는 우리의 사이오닉 힘을 이해하지 못합니다.
+            그들에게 크라이온의 힘을 보여주세요.
+        `,
+
+        startResources: { crystal: 300, energy: 150 },
+        startUnits: [
+            { type: 'probe', count: 4 },
+            { type: 'zealot', count: 5 },
+            { type: 'stalker', count: 3 }
+        ],
+
+        objectives: [
+            {
+                id: 'destroy_mechs',
+                type: 'destroy_count',
+                targetCount: 15,
+                currentCount: 0,
+                description: '기계 유닛 15기 파괴',
+                completed: false,
+                primary: true
+            },
+            {
+                id: 'build_gateway',
+                type: 'build_count',
+                buildingType: 'gateway',
+                targetCount: 2,
+                currentCount: 0,
+                description: '관문 2개 건설',
+                completed: false,
+                primary: true
+            }
+        ],
+
+        waves: [
+            { time: 30, units: [{ type: 'sentinel', count: 3 }] },
+            { time: 80, units: [{ type: 'sentinel', count: 4 }, { type: 'flak', count: 1 }] },
+            { time: 140, units: [{ type: 'sentinel', count: 5 }, { type: 'flak', count: 2 }] },
+            { time: 200, units: [{ type: 'sentinel', count: 6 }, { type: 'crusher', count: 1 }] }
+        ],
+
+        rewards: {
+            coins: 250,
+            gems: 10,
+            experience: 150
+        }
+    },
+
+    {
+        id: 'kryon_2_2',
+        name: '사이오닉 폭풍',
+        description: '사이오닉 에너지를 집중하여 적의 공세를 막아내세요.',
+        faction: 'kryon',
+        enemyFaction: 'mixed',
+        chapter: 2,
+        difficulty: 'normal',
+
+        briefing: `
+            테라와 메카니쿠스가 동시에 공격해 옵니다.
+            하지만 두려워하지 마세요.
+            고대 사이오닉 에너지를 집중하여 적들을 물리치세요.
+            당신의 정신력이 승패를 결정할 것입니다.
+        `,
+
+        startResources: { crystal: 350, energy: 200 },
+        startUnits: [
+            { type: 'probe', count: 5 },
+            { type: 'zealot', count: 6 },
+            { type: 'stalker', count: 4 },
+            { type: 'ranger', count: 2 }
+        ],
+
+        objectives: [
+            {
+                id: 'survive_assault',
+                type: 'survive_waves',
+                waveCount: 8,
+                currentWave: 0,
+                description: '8개 웨이브 생존',
+                completed: false,
+                primary: true
+            },
+            {
+                id: 'build_defenses',
+                type: 'build_count',
+                buildingType: 'photon_cannon',
+                targetCount: 4,
+                currentCount: 0,
+                description: '광자포 4개 건설',
+                completed: false,
+                primary: true
+            },
+            {
+                id: 'counter_attack',
+                type: 'destroy_count',
+                targetCount: 30,
+                currentCount: 0,
+                description: '적 30기 처치 (보너스)',
+                completed: false,
+                primary: false
+            }
+        ],
+
+        waves: [
+            { time: 25, units: [{ type: 'marine', count: 4 }], faction: 'terra' },
+            { time: 55, units: [{ type: 'sentinel', count: 4 }], faction: 'mechanicus' },
+            { time: 90, units: [{ type: 'marine', count: 5 }, { type: 'medic', count: 1 }], faction: 'terra' },
+            { time: 130, units: [{ type: 'sentinel', count: 5 }, { type: 'flak', count: 2 }], faction: 'mechanicus' },
+            { time: 170, units: [{ type: 'marine', count: 6 }, { type: 'tank', count: 1 }], faction: 'terra' },
+            { time: 210, units: [{ type: 'sentinel', count: 6 }, { type: 'crusher', count: 1 }], faction: 'mechanicus' },
+            { time: 260, units: [{ type: 'marine', count: 8 }, { type: 'tank', count: 2 }], faction: 'terra' },
+            { time: 320, units: [{ type: 'sentinel', count: 8 }, { type: 'crusher', count: 2 }], faction: 'mechanicus' }
+        ],
+
+        rewards: {
+            coins: 350,
+            gems: 15,
+            experience: 200
+        }
+    },
+
+    {
+        id: 'kryon_2_3',
+        name: '잃어버린 사원',
+        description: '고대 사원을 되찾고 그 안의 비밀을 해제하세요.',
+        faction: 'kryon',
+        enemyFaction: 'mechanicus',
+        chapter: 2,
+        difficulty: 'hard',
+
+        briefing: `
+            집행관이여, 고대 사원이 발견되었습니다.
+            하지만 메카니쿠스가 이미 그곳을 점령했습니다.
+            그들은 우리의 신성한 유물을 분석하려 합니다.
+            사원을 탈환하고 유물을 보호하세요.
+        `,
+
+        startResources: { crystal: 400, energy: 200 },
+        startUnits: [
+            { type: 'probe', count: 5 },
+            { type: 'zealot', count: 8 },
+            { type: 'stalker', count: 4 }
+        ],
+
+        objectives: [
+            {
+                id: 'capture_temple',
+                type: 'destroy_building',
+                buildingType: 'mech_factory',
+                description: '사원 탈환 (메카니쿠스 시설 파괴)',
+                completed: false,
+                primary: true
+            },
+            {
+                id: 'protect_artifact',
+                type: 'protect',
+                targetType: 'artifact',
+                description: '고대 유물 보호',
+                completed: false,
+                primary: true,
+                failOnDestroy: true
+            },
+            {
+                id: 'elite_kills',
+                type: 'destroy_count',
+                targetCount: 3,
+                unitType: 'crusher',
+                currentCount: 0,
+                description: '크러셔 3기 파괴 (보너스)',
+                completed: false,
+                primary: false
+            }
+        ],
+
+        enemyBase: {
+            buildings: [
+                { type: 'factory', x: 1600, y: 500 },
+                { type: 'factory', x: 1500, y: 600 },
+                { type: 'turret', x: 1400, y: 400 },
+                { type: 'turret', x: 1400, y: 600 }
+            ],
+            units: [
+                { type: 'sentinel', count: 8 },
+                { type: 'crusher', count: 3 },
+                { type: 'flak', count: 4 }
+            ]
+        },
+
+        rewards: {
+            coins: 450,
+            gems: 20,
+            experience: 250
+        }
+    },
+
+    // 챕터 3: 승천
+    {
+        id: 'kryon_3_1',
+        chapter: 3,
+        name: '빛의 수호자',
+        description: '최종 결전을 위해 크라이온 전사들을 결집시키세요.',
+        faction: 'kryon',
+        enemyFaction: 'mixed',
+        difficulty: 'hard',
+
+        briefing: `
+            집행관이여, 마지막 전투가 다가왔습니다.
+            테라와 메카니쿠스가 연합하여 우리를 공격하려 합니다.
+            모든 크라이온 전사들을 결집시키세요.
+            영원한 빛이 승리를 인도할 것입니다.
+        `,
+
+        startResources: { crystal: 500, energy: 250 },
+        startUnits: [
+            { type: 'probe', count: 6 },
+            { type: 'zealot', count: 10 },
+            { type: 'stalker', count: 5 },
+            { type: 'ranger', count: 3 }
+        ],
+
+        objectives: [
+            {
+                id: 'build_army',
+                type: 'train_count',
+                targetCount: 25,
+                currentCount: 0,
+                description: '전투 유닛 25기 소환',
+                completed: false,
+                primary: true
+            },
+            {
+                id: 'survive_assault',
+                type: 'survive',
+                time: 480,
+                description: '8분간 연합군 공격 방어',
+                completed: false,
+                primary: true
+            },
+            {
+                id: 'counter_attack',
+                type: 'destroy_count',
+                targetCount: 40,
+                currentCount: 0,
+                description: '적 40기 처치',
+                completed: false,
+                primary: true
+            }
+        ],
+
+        waves: [
+            { time: 30, units: [{ type: 'marine', count: 5 }], faction: 'terra' },
+            { time: 70, units: [{ type: 'sentinel', count: 5 }], faction: 'mechanicus' },
+            { time: 120, units: [{ type: 'marine', count: 6 }, { type: 'tank', count: 1 }], faction: 'terra' },
+            { time: 180, units: [{ type: 'sentinel', count: 6 }, { type: 'crusher', count: 1 }], faction: 'mechanicus' },
+            { time: 240, units: [{ type: 'marine', count: 8 }, { type: 'tank', count: 2 }], faction: 'terra' },
+            { time: 300, units: [{ type: 'sentinel', count: 8 }, { type: 'crusher', count: 2 }], faction: 'mechanicus' },
+            { time: 380, units: [{ type: 'marine', count: 10 }, { type: 'tank', count: 3 }], faction: 'terra' },
+            { time: 450, units: [{ type: 'sentinel', count: 10 }, { type: 'crusher', count: 3 }], faction: 'mechanicus' }
+        ],
+
+        rewards: {
+            coins: 500,
+            gems: 25,
+            experience: 300
+        }
+    },
+
+    {
+        id: 'kryon_3_2',
+        name: '영원한 빛',
+        description: '크라이온의 운명을 건 최후의 전투.',
+        faction: 'kryon',
+        enemyFaction: 'mixed',
+        chapter: 3,
+        difficulty: 'hard',
+
+        briefing: `
+            이것이 마지막입니다, 집행관이여.
+            우리 종족의 모든 것이 이 전투에 달려 있습니다.
+            적의 본거지를 파괴하고 노바 섹터의 패권을 차지하세요.
+
+            영원한 빛이 당신과 함께하기를. 크라이온을 위하여!
+        `,
+
+        startResources: { crystal: 600, energy: 300 },
+        startUnits: [
+            { type: 'probe', count: 8 },
+            { type: 'zealot', count: 12 },
+            { type: 'stalker', count: 6 },
+            { type: 'ranger', count: 4 }
+        ],
+
+        objectives: [
+            {
+                id: 'destroy_terra_base',
+                type: 'destroy_building',
+                buildingType: 'terra_command',
+                description: '테라 연합 본부 파괴',
+                completed: false,
+                primary: true
+            },
+            {
+                id: 'destroy_mech_base',
+                type: 'destroy_building',
+                buildingType: 'mech_command',
+                description: '메카니쿠스 중추 파괴',
+                completed: false,
+                primary: true
+            },
+            {
+                id: 'protect_nexus',
+                type: 'protect',
+                targetType: 'nexus',
+                description: '넥서스 보호',
+                completed: false,
+                primary: true,
+                failOnDestroy: true
+            },
+            {
+                id: 'legendary_victory',
+                type: 'time_limit',
+                timeLimit: 600,
+                description: '10분 내 완료 (보너스)',
+                completed: false,
+                primary: false
+            }
+        ],
+
+        enemyBases: [
+            {
+                faction: 'terra',
+                buildings: [
+                    { type: 'command_center', x: 1700, y: 300 },
+                    { type: 'barracks', x: 1600, y: 250 },
+                    { type: 'barracks', x: 1600, y: 350 },
+                    { type: 'turret', x: 1500, y: 200 },
+                    { type: 'turret', x: 1500, y: 400 }
+                ],
+                units: [
+                    { type: 'marine', count: 12 },
+                    { type: 'tank', count: 4 },
+                    { type: 'medic', count: 3 }
+                ]
+            },
+            {
+                faction: 'mechanicus',
+                buildings: [
+                    { type: 'core', x: 1700, y: 900 },
+                    { type: 'factory', x: 1600, y: 850 },
+                    { type: 'factory', x: 1600, y: 950 },
+                    { type: 'turret', x: 1500, y: 800 },
+                    { type: 'turret', x: 1500, y: 1000 }
+                ],
+                units: [
+                    { type: 'sentinel', count: 12 },
+                    { type: 'crusher', count: 4 },
+                    { type: 'flak', count: 4 }
+                ]
+            }
+        ],
+
+        rewards: {
+            coins: 1000,
+            gems: 50,
+            experience: 500
+        },
+
+        unlocks: ['kryon_epilogue']
+    }
+];
+
+/**
+ * 메카니쿠스 캠페인
+ */
+export const MECHANICUS_CAMPAIGN = [
+    // 챕터 1: 프로토콜
+    {
+        id: 'mech_1_1',
+        chapter: 1,
+        name: '초기화',
+        description: '메카니쿠스 프로토콜이 활성화되었습니다.',
+        faction: 'mechanicus',
+        enemyFaction: 'terra',
+        difficulty: 'easy',
+
+        briefing: `
+            [시스템 부팅 완료]
+            프라임 유닛, 활성화.
+            노바 섹터에서 유기체 신호 감지.
+            프로토콜 1: 자원 수집 및 기지 확장.
+            프로토콜 2: 유기체 위협 무력화.
+            작전 개시.
+        `,
+
+        debriefing: {
+            victory: '[작전 성공] 1차 목표 달성. 다음 프로토콜 대기.',
+            defeat: '[시스템 오류] 재부팅 필요. 작전 재시도.'
+        },
+
+        startResources: { crystal: 250, energy: 150 },
+        startUnits: [
+            { type: 'harvester', count: 3 },
+            { type: 'sentinel', count: 4 }
+        ],
+
+        objectives: [
+            {
+                id: 'build_core',
+                type: 'build',
+                buildingType: 'core',
+                description: '중앙 코어 건설',
+                completed: false,
+                primary: true
+            },
+            {
+                id: 'produce_units',
+                type: 'train_count',
+                targetCount: 6,
+                currentCount: 0,
+                description: '전투 유닛 6기 생산',
+                completed: false,
+                primary: true
+            },
+            {
+                id: 'eliminate_scouts',
+                type: 'destroy_count',
+                targetCount: 5,
+                currentCount: 0,
+                description: '테라 정찰대 제거',
+                completed: false,
+                primary: false
+            }
+        ],
+
+        waves: [
+            { time: 40, units: [{ type: 'marine', count: 3 }] },
+            { time: 100, units: [{ type: 'marine', count: 4 }] },
+            { time: 160, units: [{ type: 'marine', count: 4 }, { type: 'scout', count: 2 }] }
+        ],
+
+        rewards: {
+            coins: 150,
+            gems: 5,
+            experience: 100
+        }
+    },
+
+    {
+        id: 'mech_1_2',
+        name: '자원 최적화',
+        description: '효율적인 자원 수집 프로토콜을 실행하세요.',
+        faction: 'mechanicus',
+        enemyFaction: 'terra',
+        chapter: 1,
+        difficulty: 'easy',
+
+        briefing: `
+            [자원 분석 완료]
+            노바 섹터 크리스탈: 고순도 에너지 결정체.
+            효율성 극대화 필수.
+            유기체 테라 연합이 자원 탈취 시도 중.
+            프로토콜: 자원 확보 및 방어.
+        `,
+
+        startResources: { crystal: 200, energy: 100 },
+        startUnits: [
+            { type: 'harvester', count: 4 },
+            { type: 'sentinel', count: 4 },
+            { type: 'flak', count: 2 }
+        ],
+
+        objectives: [
+            {
+                id: 'gather_resources',
+                type: 'gather',
+                resourceType: 'crystal',
+                targetAmount: 600,
+                currentAmount: 0,
+                description: '크리스탈 600 수집',
+                completed: false,
+                primary: true
+            },
+            {
+                id: 'build_factories',
+                type: 'build_count',
+                buildingType: 'factory',
+                targetCount: 2,
+                currentCount: 0,
+                description: '공장 2개 건설',
+                completed: false,
+                primary: true
+            },
+            {
+                id: 'perfect_defense',
+                type: 'protect_all',
+                targetType: 'harvester',
+                description: '수집 유닛 손실 없음 (보너스)',
+                completed: false,
+                primary: false
+            }
+        ],
+
+        waves: [
+            { time: 45, units: [{ type: 'marine', count: 4 }] },
+            { time: 100, units: [{ type: 'marine', count: 5 }, { type: 'scout', count: 2 }] },
+            { time: 170, units: [{ type: 'marine', count: 6 }, { type: 'medic', count: 1 }] }
+        ],
+
+        rewards: {
+            coins: 200,
+            gems: 5,
+            experience: 120
+        }
+    },
+
+    {
+        id: 'mech_1_3',
+        name: '적대적 제거',
+        description: '테라 연합 전초기지를 제거하세요.',
+        faction: 'mechanicus',
+        enemyFaction: 'terra',
+        chapter: 1,
+        difficulty: 'normal',
+
+        briefing: `
+            [위협 분석]
+            테라 연합 전초기지 위치 확인.
+            지속적인 침입 시도 감지.
+            프로토콜: 위협 요소 영구 제거.
+            최대 효율로 작전 수행.
+        `,
+
+        startResources: { crystal: 350, energy: 175 },
+        startUnits: [
+            { type: 'harvester', count: 5 },
+            { type: 'sentinel', count: 6 },
+            { type: 'flak', count: 3 }
+        ],
+
+        objectives: [
+            {
+                id: 'destroy_command',
+                type: 'destroy_building',
+                buildingType: 'command_center',
+                description: '테라 사령부 파괴',
+                completed: false,
+                primary: true
+            },
+            {
+                id: 'destroy_all_turrets',
+                type: 'destroy_count',
+                targetCount: 3,
+                buildingType: 'turret',
+                currentCount: 0,
+                description: '방어 터렛 3개 파괴',
+                completed: false,
+                primary: true
+            },
+            {
+                id: 'efficiency',
+                type: 'time_limit',
+                timeLimit: 420,
+                description: '7분 내 완료 (보너스)',
+                completed: false,
+                primary: false
+            }
+        ],
+
+        enemyBase: {
+            buildings: [
+                { type: 'command_center', x: 1600, y: 500 },
+                { type: 'barracks', x: 1500, y: 400 },
+                { type: 'barracks', x: 1500, y: 600 },
+                { type: 'turret', x: 1400, y: 350 },
+                { type: 'turret', x: 1400, y: 500 },
+                { type: 'turret', x: 1400, y: 650 }
+            ],
+            units: [
+                { type: 'marine', count: 10 },
+                { type: 'medic', count: 2 }
+            ]
+        },
+
+        rewards: {
+            coins: 300,
+            gems: 10,
+            experience: 150
+        }
+    },
+
+    // 챕터 2: 확장
+    {
+        id: 'mech_2_1',
+        chapter: 2,
+        name: '비논리적 존재',
+        description: '크라이온의 사이오닉 에너지를 분석하고 무력화하세요.',
+        faction: 'mechanicus',
+        enemyFaction: 'kryon',
+        difficulty: 'normal',
+
+        briefing: `
+            [새로운 위협 감지]
+            지정: 크라이온. 비논리적 에너지 사용 확인.
+            "사이오닉"이라 명명된 현상 분석 필요.
+            경고: 예측 불가능한 공격 패턴.
+            프로토콜: 샘플 수집 및 분석 후 제거.
+        `,
+
+        startResources: { crystal: 300, energy: 150 },
+        startUnits: [
+            { type: 'harvester', count: 4 },
+            { type: 'sentinel', count: 6 },
+            { type: 'flak', count: 3 }
+        ],
+
+        objectives: [
+            {
+                id: 'analyze_kryon',
+                type: 'destroy_count',
+                targetCount: 10,
+                currentCount: 0,
+                description: '크라이온 유닛 10기 분석(파괴)',
+                completed: false,
+                primary: true
+            },
+            {
+                id: 'upgrade_units',
+                type: 'build',
+                buildingType: 'tech_lab',
+                description: '기술 연구소 건설',
+                completed: false,
+                primary: true
+            }
+        ],
+
+        waves: [
+            { time: 30, units: [{ type: 'zealot', count: 3 }] },
+            { time: 80, units: [{ type: 'zealot', count: 4 }, { type: 'ranger', count: 2 }] },
+            { time: 140, units: [{ type: 'zealot', count: 5 }, { type: 'stalker', count: 2 }] },
+            { time: 200, units: [{ type: 'zealot', count: 6 }, { type: 'stalker', count: 3 }] }
+        ],
+
+        rewards: {
+            coins: 250,
+            gems: 10,
+            experience: 150
+        }
+    },
+
+    {
+        id: 'mech_2_2',
+        name: '다중 위협 대응',
+        description: '테라와 크라이온의 동시 공격에 대응하세요.',
+        faction: 'mechanicus',
+        enemyFaction: 'mixed',
+        chapter: 2,
+        difficulty: 'normal',
+
+        briefing: `
+            [경고: 다중 위협]
+            테라 연합과 크라이온 동시 공격 예측.
+            확률 분석: 조율된 공격 가능성 23.7%.
+            프로토콜: 방어 최적화 및 반격 준비.
+            자원 할당 효율성이 승패를 결정.
+        `,
+
+        startResources: { crystal: 400, energy: 200 },
+        startUnits: [
+            { type: 'harvester', count: 5 },
+            { type: 'sentinel', count: 7 },
+            { type: 'flak', count: 4 },
+            { type: 'crusher', count: 1 }
+        ],
+
+        objectives: [
+            {
+                id: 'survive_waves',
+                type: 'survive_waves',
+                waveCount: 8,
+                currentWave: 0,
+                description: '8개 웨이브 방어',
+                completed: false,
+                primary: true
+            },
+            {
+                id: 'build_turrets',
+                type: 'build_count',
+                buildingType: 'laser_turret',
+                targetCount: 4,
+                currentCount: 0,
+                description: '레이저 터렛 4개 건설',
+                completed: false,
+                primary: true
+            },
+            {
+                id: 'exterminate',
+                type: 'destroy_count',
+                targetCount: 35,
+                currentCount: 0,
+                description: '적 35기 제거 (보너스)',
+                completed: false,
+                primary: false
+            }
+        ],
+
+        waves: [
+            { time: 25, units: [{ type: 'marine', count: 4 }], faction: 'terra' },
+            { time: 60, units: [{ type: 'zealot', count: 4 }], faction: 'kryon' },
+            { time: 100, units: [{ type: 'marine', count: 5 }, { type: 'tank', count: 1 }], faction: 'terra' },
+            { time: 145, units: [{ type: 'zealot', count: 5 }, { type: 'stalker', count: 2 }], faction: 'kryon' },
+            { time: 190, units: [{ type: 'marine', count: 6 }, { type: 'tank', count: 1 }], faction: 'terra' },
+            { time: 240, units: [{ type: 'zealot', count: 6 }, { type: 'stalker', count: 3 }], faction: 'kryon' },
+            { time: 300, units: [{ type: 'marine', count: 8 }, { type: 'tank', count: 2 }], faction: 'terra' },
+            { time: 360, units: [{ type: 'zealot', count: 8 }, { type: 'stalker', count: 4 }], faction: 'kryon' }
+        ],
+
+        rewards: {
+            coins: 350,
+            gems: 15,
+            experience: 200
+        }
+    },
+
+    {
+        id: 'mech_2_3',
+        name: '코드 통합',
+        description: '고대 메카니쿠스 유적에서 잃어버린 코드를 복구하세요.',
+        faction: 'mechanicus',
+        enemyFaction: 'kryon',
+        chapter: 2,
+        difficulty: 'hard',
+
+        briefing: `
+            [고대 데이터 감지]
+            잃어버린 메카니쿠스 유적 발견.
+            원시 코드 복구 시 전투 효율 27.3% 상승 예측.
+            크라이온이 유적 점령 중.
+            프로토콜: 유적 탈환 및 코드 복구.
+        `,
+
+        startResources: { crystal: 400, energy: 200 },
+        startUnits: [
+            { type: 'harvester', count: 5 },
+            { type: 'sentinel', count: 8 },
+            { type: 'crusher', count: 2 },
+            { type: 'flak', count: 4 }
+        ],
+
+        objectives: [
+            {
+                id: 'capture_ruin',
+                type: 'destroy_building',
+                buildingType: 'kryon_nexus',
+                description: '유적 탈환 (크라이온 넥서스 파괴)',
+                completed: false,
+                primary: true
+            },
+            {
+                id: 'protect_core',
+                type: 'protect',
+                targetType: 'core',
+                description: '중앙 코어 보호',
+                completed: false,
+                primary: true,
+                failOnDestroy: true
+            },
+            {
+                id: 'elite_kills',
+                type: 'destroy_count',
+                targetCount: 4,
+                unitType: 'stalker',
+                currentCount: 0,
+                description: '추적자 4기 파괴 (보너스)',
+                completed: false,
+                primary: false
+            }
+        ],
+
+        enemyBase: {
+            buildings: [
+                { type: 'nexus', x: 1600, y: 500 },
+                { type: 'gateway', x: 1500, y: 400 },
+                { type: 'gateway', x: 1500, y: 600 },
+                { type: 'photon_cannon', x: 1400, y: 350 },
+                { type: 'photon_cannon', x: 1400, y: 650 }
+            ],
+            units: [
+                { type: 'zealot', count: 10 },
+                { type: 'stalker', count: 5 },
+                { type: 'ranger', count: 4 }
+            ]
+        },
+
+        rewards: {
+            coins: 450,
+            gems: 20,
+            experience: 250
+        }
+    },
+
+    // 챕터 3: 수렴
+    {
+        id: 'mech_3_1',
+        chapter: 3,
+        name: '최종 계산',
+        description: '모든 유기체 위협을 제거하기 위한 최종 작전.',
+        faction: 'mechanicus',
+        enemyFaction: 'mixed',
+        difficulty: 'hard',
+
+        briefing: `
+            [최종 분석 완료]
+            유기체 세력 제거 시 노바 섹터 완전 통제 가능.
+            최적 전략 계산 완료.
+            모든 생산 시설 최대 가동.
+            프로토콜: 총력전 개시.
+        `,
+
+        startResources: { crystal: 500, energy: 250 },
+        startUnits: [
+            { type: 'harvester', count: 6 },
+            { type: 'sentinel', count: 10 },
+            { type: 'crusher', count: 3 },
+            { type: 'flak', count: 5 }
+        ],
+
+        objectives: [
+            {
+                id: 'build_army',
+                type: 'train_count',
+                targetCount: 30,
+                currentCount: 0,
+                description: '전투 유닛 30기 생산',
+                completed: false,
+                primary: true
+            },
+            {
+                id: 'survive_assault',
+                type: 'survive',
+                time: 480,
+                description: '8분간 연합 공격 방어',
+                completed: false,
+                primary: true
+            },
+            {
+                id: 'eliminate',
+                type: 'destroy_count',
+                targetCount: 50,
+                currentCount: 0,
+                description: '적 50기 제거',
+                completed: false,
+                primary: true
+            }
+        ],
+
+        waves: [
+            { time: 30, units: [{ type: 'marine', count: 5 }], faction: 'terra' },
+            { time: 60, units: [{ type: 'zealot', count: 5 }], faction: 'kryon' },
+            { time: 100, units: [{ type: 'marine', count: 6 }, { type: 'tank', count: 2 }], faction: 'terra' },
+            { time: 150, units: [{ type: 'zealot', count: 6 }, { type: 'stalker', count: 3 }], faction: 'kryon' },
+            { time: 200, units: [{ type: 'marine', count: 8 }, { type: 'tank', count: 2 }], faction: 'terra' },
+            { time: 260, units: [{ type: 'zealot', count: 8 }, { type: 'stalker', count: 4 }], faction: 'kryon' },
+            { time: 340, units: [{ type: 'marine', count: 10 }, { type: 'tank', count: 3 }], faction: 'terra' },
+            { time: 420, units: [{ type: 'zealot', count: 10 }, { type: 'stalker', count: 5 }], faction: 'kryon' }
+        ],
+
+        rewards: {
+            coins: 500,
+            gems: 25,
+            experience: 300
+        }
+    },
+
+    {
+        id: 'mech_3_2',
+        name: '수렴 프로토콜',
+        description: '노바 섹터의 완전한 통제를 위한 최종 작전.',
+        faction: 'mechanicus',
+        enemyFaction: 'mixed',
+        chapter: 3,
+        difficulty: 'hard',
+
+        briefing: `
+            [최종 프로토콜 활성화]
+            지정: 수렴 프로토콜.
+            목표: 모든 적대 세력의 영구 제거.
+            노바 섹터의 완전한 통제 달성.
+
+            로직이 곧 진리. 메카니쿠스 영원하라.
+        `,
+
+        startResources: { crystal: 600, energy: 300 },
+        startUnits: [
+            { type: 'harvester', count: 8 },
+            { type: 'sentinel', count: 12 },
+            { type: 'crusher', count: 4 },
+            { type: 'flak', count: 6 }
+        ],
+
+        objectives: [
+            {
+                id: 'destroy_terra_base',
+                type: 'destroy_building',
+                buildingType: 'terra_command',
+                description: '테라 연합 본부 파괴',
+                completed: false,
+                primary: true
+            },
+            {
+                id: 'destroy_kryon_base',
+                type: 'destroy_building',
+                buildingType: 'kryon_nexus',
+                description: '크라이온 넥서스 파괴',
+                completed: false,
+                primary: true
+            },
+            {
+                id: 'protect_core',
+                type: 'protect',
+                targetType: 'core',
+                description: '중앙 코어 보호',
+                completed: false,
+                primary: true,
+                failOnDestroy: true
+            },
+            {
+                id: 'perfect_logic',
+                type: 'unit_loss_limit',
+                maxLosses: 15,
+                currentLosses: 0,
+                description: '유닛 손실 15기 이하 (보너스)',
+                completed: false,
+                primary: false
+            }
+        ],
+
+        enemyBases: [
+            {
+                faction: 'terra',
+                buildings: [
+                    { type: 'command_center', x: 1700, y: 300 },
+                    { type: 'barracks', x: 1600, y: 250 },
+                    { type: 'barracks', x: 1600, y: 350 },
+                    { type: 'turret', x: 1500, y: 200 },
+                    { type: 'turret', x: 1500, y: 400 }
+                ],
+                units: [
+                    { type: 'marine', count: 15 },
+                    { type: 'tank', count: 4 },
+                    { type: 'medic', count: 3 }
+                ]
+            },
+            {
+                faction: 'kryon',
+                buildings: [
+                    { type: 'nexus', x: 1700, y: 900 },
+                    { type: 'gateway', x: 1600, y: 850 },
+                    { type: 'gateway', x: 1600, y: 950 },
+                    { type: 'photon_cannon', x: 1500, y: 800 },
+                    { type: 'photon_cannon', x: 1500, y: 1000 }
+                ],
+                units: [
+                    { type: 'zealot', count: 12 },
+                    { type: 'stalker', count: 6 },
+                    { type: 'ranger', count: 4 }
+                ]
+            }
+        ],
+
+        rewards: {
+            coins: 1000,
+            gems: 50,
+            experience: 500
+        },
+
+        unlocks: ['mechanicus_epilogue']
+    }
+];
+
+/**
  * 미션 데이터 (기존 호환성 유지)
  */
 export const MISSION_DATA = {
     tutorial: TUTORIAL_MISSION,
-    campaign: TERRA_CAMPAIGN
+    campaign: TERRA_CAMPAIGN,
+    terra: TERRA_CAMPAIGN,
+    kryon: KRYON_CAMPAIGN,
+    mechanicus: MECHANICUS_CAMPAIGN
 };
 
 /**
@@ -887,7 +2092,20 @@ export class CampaignProgress {
     }
 
     getNextMission(campaignId = 'terra') {
-        const campaign = campaignId === 'terra' ? TERRA_CAMPAIGN : [];
+        let campaign;
+        switch (campaignId) {
+            case 'terra':
+                campaign = TERRA_CAMPAIGN;
+                break;
+            case 'kryon':
+                campaign = KRYON_CAMPAIGN;
+                break;
+            case 'mechanicus':
+                campaign = MECHANICUS_CAMPAIGN;
+                break;
+            default:
+                campaign = TERRA_CAMPAIGN;
+        }
 
         for (const mission of campaign) {
             if (!this.completedMissions.has(mission.id)) {
@@ -896,6 +2114,37 @@ export class CampaignProgress {
         }
 
         return null; // 모든 미션 완료
+    }
+
+    getCampaignProgress(campaignId) {
+        let campaign;
+        switch (campaignId) {
+            case 'terra':
+                campaign = TERRA_CAMPAIGN;
+                break;
+            case 'kryon':
+                campaign = KRYON_CAMPAIGN;
+                break;
+            case 'mechanicus':
+                campaign = MECHANICUS_CAMPAIGN;
+                break;
+            default:
+                return { completed: 0, total: 0, percentage: 0 };
+        }
+
+        const completed = campaign.filter(m => this.completedMissions.has(m.id)).length;
+        const total = campaign.length;
+        const percentage = total > 0 ? Math.round((completed / total) * 100) : 0;
+
+        return { completed, total, percentage };
+    }
+
+    getAllCampaignsProgress() {
+        return {
+            terra: this.getCampaignProgress('terra'),
+            kryon: this.getCampaignProgress('kryon'),
+            mechanicus: this.getCampaignProgress('mechanicus')
+        };
     }
 
     save() {

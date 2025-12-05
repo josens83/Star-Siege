@@ -1005,6 +1005,286 @@ html, body {
     50% { transform: scale(0.9); opacity: 0.8; }
 }
 
+/* 메뉴 버튼 스타일 추가 */
+.primary-btn {
+    background: linear-gradient(180deg, var(--primary-color) 0%, #2266dd 100%) !important;
+    border-color: #66aaff !important;
+    font-weight: bold;
+}
+
+.primary-btn:hover {
+    background: linear-gradient(180deg, #66aaff 0%, var(--primary-color) 100%) !important;
+}
+
+.small-btn {
+    width: calc(50% - 5px);
+    display: inline-block;
+    padding: 12px 15px;
+    font-size: 14px;
+}
+
+.menu-row {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.menu-divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--bg-light), transparent);
+    margin: 15px 0;
+}
+
+/* 통화 표시 */
+#currency-display {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    gap: 15px;
+    background: rgba(10, 10, 26, 0.9);
+    padding: 8px 16px;
+    border-radius: var(--border-radius);
+    border: 1px solid var(--bg-light);
+}
+
+.currency-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.currency-icon {
+    font-size: 18px;
+}
+
+.currency-value {
+    font-size: 16px;
+    font-weight: bold;
+    color: var(--text-primary);
+}
+
+#coins-value {
+    color: #ffeb3b;
+}
+
+#gems-value {
+    color: #e040fb;
+}
+
+/* 캠페인 선택 */
+#campaign-select {
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.campaign-card {
+    background: var(--bg-medium);
+    border: 2px solid var(--bg-light);
+    border-radius: var(--border-radius-large);
+    padding: 15px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-align: left;
+}
+
+.campaign-card:hover {
+    border-color: var(--primary-color);
+    transform: translateX(5px);
+}
+
+.campaign-card.locked {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.campaign-card .faction-badge {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.campaign-card .faction-badge.terra {
+    background: rgba(68, 136, 255, 0.3);
+    color: var(--terra-primary);
+}
+
+.campaign-card .faction-badge.kryon {
+    background: rgba(68, 255, 136, 0.3);
+    color: var(--kryon-primary);
+}
+
+.campaign-card .faction-badge.mechanicus {
+    background: rgba(255, 136, 68, 0.3);
+    color: var(--mechanicus-primary);
+}
+
+.campaign-card h3 {
+    font-size: 16px;
+    margin-bottom: 4px;
+}
+
+.campaign-card p {
+    font-size: 12px;
+    color: var(--text-secondary);
+}
+
+.campaign-progress {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 8px;
+}
+
+.campaign-progress-bar {
+    flex: 1;
+    height: 6px;
+    background: var(--bg-dark);
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.campaign-progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+    transition: width 0.3s;
+}
+
+.campaign-progress-text {
+    font-size: 11px;
+    color: var(--text-secondary);
+}
+
+/* 일일 보상 팝업 */
+.daily-reward-popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: linear-gradient(180deg, var(--bg-medium) 0%, var(--bg-dark) 100%);
+    border: 2px solid #ffd700;
+    border-radius: var(--border-radius-large);
+    padding: 24px;
+    z-index: 3000;
+    text-align: center;
+    animation: popIn 0.3s ease;
+}
+
+@keyframes popIn {
+    0% { transform: translate(-50%, -50%) scale(0); opacity: 0; }
+    70% { transform: translate(-50%, -50%) scale(1.1); }
+    100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+}
+
+.daily-reward-popup h3 {
+    color: #ffd700;
+    font-size: 20px;
+    margin-bottom: 16px;
+}
+
+.reward-items {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin: 20px 0;
+}
+
+.reward-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+.reward-item .icon {
+    font-size: 36px;
+}
+
+.reward-item .amount {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+/* 알림 배지 */
+.notification-badge {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: var(--danger-color);
+    color: white;
+    font-size: 10px;
+    font-weight: bold;
+    min-width: 18px;
+    height: 18px;
+    border-radius: 9px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 4px;
+}
+
+/* 접근성 스타일 */
+.high-contrast {
+    --bg-dark: #000000;
+    --bg-medium: #1a1a1a;
+    --bg-light: #333333;
+    --text-primary: #ffffff;
+    --text-secondary: #cccccc;
+}
+
+.large-text {
+    font-size: 18px !important;
+}
+
+.large-text .menu-btn {
+    font-size: 18px;
+    padding: 18px 35px;
+}
+
+.reduced-motion * {
+    animation: none !important;
+    transition: none !important;
+}
+
+/* 색맹 모드 */
+.colorblind-protanopia {
+    filter: url(#colorblind-protanopia);
+}
+
+.colorblind-deuteranopia {
+    filter: url(#colorblind-deuteranopia);
+}
+
+.colorblind-tritanopia {
+    filter: url(#colorblind-tritanopia);
+}
+
+/* 페이드 애니메이션 */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes fadeOut {
+    from { opacity: 1; }
+    to { opacity: 0; }
+}
+
+/* 슬라이드 애니메이션 */
+@keyframes slideUp {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes slideDown {
+    from { transform: translateY(-20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
 /* 유틸리티 클래스 */
 .hidden {
     display: none !important;

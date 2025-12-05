@@ -32,6 +32,14 @@ import { ResourceNode } from '../entities/ResourceNode.js';
 import { BUILDING_CONFIGS } from '../data/BuildingConfigs.js';
 import { UNIT_CONFIGS } from '../data/UnitConfigs.js';
 
+// 신규 시스템 임포트
+import { UpgradeSystem } from '../systems/UpgradeSystem.js';
+import { EconomySystem } from '../systems/EconomySystem.js';
+import { IAPSystem } from '../systems/IAPSystem.js';
+import { AchievementSystem } from '../systems/AchievementSystem.js';
+import { StatisticsSystem } from '../systems/StatisticsSystem.js';
+import { SettingsSystem } from '../systems/SettingsSystem.js';
+
 export class Game {
     constructor() {
         // 캔버스 설정
@@ -95,6 +103,14 @@ export class Game {
         this.touchControls = null;
         this.audioManager = null;
         this.effectSystem = null;
+
+        // 신규 시스템들
+        this.upgradeSystem = null;
+        this.economy = null;
+        this.iap = null;
+        this.achievements = null;
+        this.statistics = null;
+        this.settings = null;
 
         // 디버그 모드
         this.debug = false;
@@ -193,6 +209,30 @@ export class Game {
         // 튜토리얼 시스템
         this.tutorialSystem = new TutorialSystem(this);
 
+        // 신규 시스템 초기화
+        updateProgress('설정 시스템 초기화...', 2);
+        this.settings = new SettingsSystem(this);
+        this.settings.init();
+
+        updateProgress('경제 시스템 초기화...', 2);
+        this.economy = new EconomySystem(this);
+        this.economy.init();
+
+        updateProgress('IAP 시스템 초기화...', 1);
+        this.iap = new IAPSystem(this);
+        this.iap.init();
+
+        updateProgress('업적 시스템 초기화...', 2);
+        this.achievements = new AchievementSystem(this);
+        this.achievements.init();
+
+        updateProgress('통계 시스템 초기화...', 2);
+        this.statistics = new StatisticsSystem(this);
+        this.statistics.init();
+
+        updateProgress('업그레이드 시스템 초기화...', 1);
+        this.upgradeSystem = new UpgradeSystem(this);
+
         // 게임 루프
         updateProgress('게임 루프 초기화...', 0);
         this.gameLoop = new GameLoop(this);
@@ -200,7 +240,24 @@ export class Game {
         // 저장된 게임 확인
         this.saveSystem.checkSavedGame();
 
+        // 일일 보상 체크
+        this.checkDailyRewards();
+
         updateProgress('완료!', 0);
+    }
+
+    /**
+     * 일일 보상 체크
+     */
+    checkDailyRewards() {
+        if (this.economy && this.economy.canClaimDailyReward()) {
+            // UI에서 일일 보상 팝업 표시
+            setTimeout(() => {
+                if (this.uiManager) {
+                    this.uiManager.showDailyRewardPopup();
+                }
+            }, 1000);
+        }
     }
 
     /**
@@ -278,6 +335,16 @@ export class Game {
         // 게임 시작
         this.state = GAME_STATES.PLAYING;
         this.gameLoop.start();
+
+        // 통계 시작
+        if (this.statistics) {
+            this.statistics.startGame(mode, faction, difficulty);
+        }
+
+        // 업그레이드 시스템 초기화
+        if (this.upgradeSystem) {
+            this.upgradeSystem.reset();
+        }
 
         // UI 업데이트
         this.uiManager.hideMenuOverlay();
@@ -652,6 +719,17 @@ export class Game {
         // 자동 저장
         this.saveSystem.update(deltaTime);
 
+        // 신규 시스템 업데이트
+        if (this.economy) {
+            this.economy.update(deltaTime);
+        }
+        if (this.achievements) {
+            this.achievements.update(deltaTime);
+        }
+        if (this.upgradeSystem) {
+            this.upgradeSystem.update(deltaTime);
+        }
+
         // 승패 체크
         this.checkWinCondition();
     }
@@ -797,13 +875,50 @@ export class Game {
         // 통계 업데이트
         const minutes = Math.floor(this.playTime / 60000);
         const seconds = Math.floor((this.playTime % 60000) / 1000);
+        const gameTimeSeconds = this.playTime / 1000;
+
+        // 게임 결과 데이터
+        const gameResult = {
+            victory,
+            faction: this.playerFaction?.id,
+            mode: this.mode,
+            difficulty: this.difficulty,
+            gameTime: gameTimeSeconds,
+            kills: this.stats.enemiesKilled,
+            unitsLost: this.stats.unitsLost,
+            buildingsDestroyed: this.stats.buildingsConstructed,
+            hqDestroyed: victory && this.mode === GAME_MODES.SKIRMISH
+        };
+
+        // 통계 시스템 업데이트
+        if (this.statistics) {
+            this.statistics.endGame(victory ? 'victory' : 'defeat');
+        }
+
+        // 업적 시스템 업데이트
+        if (this.achievements) {
+            this.achievements.onGameEnd(gameResult);
+        }
+
+        // 경제 보상
+        if (this.economy && victory) {
+            // 승리 보상
+            const baseCoins = this.mode === GAME_MODES.WAVE ? 200 : 150;
+            const bonusCoins = Math.floor(this.stats.enemiesKilled * 2);
+            this.economy.addCoins(baseCoins + bonusCoins, 'game_victory');
+            this.economy.addExperience(100 + this.stats.enemiesKilled, 'game_victory');
+
+            // 첫 승리 보상
+            this.economy.claimFirstWinOfDay();
+        }
 
         // UI 표시
         this.uiManager.showGameOverScreen(victory, {
             time: `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`,
             unitsProduced: this.stats.unitsProduced,
             enemiesKilled: this.stats.enemiesKilled,
-            buildingsConstructed: this.stats.buildingsConstructed
+            buildingsConstructed: this.stats.buildingsConstructed,
+            coinsEarned: victory ? (150 + Math.floor(this.stats.enemiesKilled * 2)) : 50
         });
 
         // 오디오
@@ -811,7 +926,7 @@ export class Game {
         this.audioManager.stopBGM();
 
         // 이벤트 발생
-        this.emit(EVENTS.GAME_OVER, { victory });
+        this.emit(EVENTS.GAME_OVER, { victory, ...gameResult });
     }
 
     /**
